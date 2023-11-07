@@ -1,0 +1,33 @@
+def find_largest_connected_dots(board):
+    def is_valid(x, y):
+        return 0 <= x < n and 0 <= y < m
+
+    def dfs(x, y):
+        nonlocal count
+        visited[x][y] = True
+        count += 1
+
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            new_x, new_y = x + dx, y + dy
+            if is_valid(new_x, new_y) and not visited[new_x][new_y] and board[new_x][new_y] == '.':
+                dfs(new_x, new_y)
+
+    n = len(board)
+    m = len(board[0])
+    largest_count = 0
+
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == '.':
+                visited = [[False] * m for _ in range(n)]
+                count = 0
+                dfs(i, j)
+                largest_count = max(largest_count, count)
+
+    return largest_count
+
+n = int(input())
+board = [input().split() for _ in range(n)]
+
+result = find_largest_connected_dots(board)
+print(result)
